@@ -15,9 +15,12 @@ services:
     depends_on:
       - mysql
     env_file: .env
-    command: ["bash", "-c", "php artisan migrate && php artisan serve --host=0.0.0.0 --port=8000"]
+    command: ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
     ports:
       - "8000:8000"
+    links:
+      - mysql
+    entrypoint: ["bash", "-c", "php artisan migrate --force && php artisan db:seed && php artisan serve --host=0.0.0.0 --port=8000"]
 
   mysql:
     image: mysql:5.7

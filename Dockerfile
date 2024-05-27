@@ -26,9 +26,6 @@ RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Install dependencies using Composer
-RUN composer install
-
 # Copy existing application directory contents
 COPY . /var/www
 
