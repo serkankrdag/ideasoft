@@ -3,6 +3,8 @@
 
 Proje kurulumu için repo klonlandıktan sonra kök dizininde terminalden ```docker-compose up -d``` yazmak yeterlidir proje docker test ortamında otomatik olarak ayağa kaldırılıp veritabanı tabloları ve product, customer gibi hazır datalar migration ve seederlar sayesinde otomatik olarak kurulur.
 
+- Not: Docker Compose komutu çalıştırıldıktan sonra proje kurulumu için gerekli komutların çalışması 2 DK sürebilir.
+
 ## Anlatım
 
 Proje istenilen şekilde görev 1 ve görev 2 için tüm şartları sağlayacak şekilde hazırlandı, sipariş için ekleme silme ve listeleme işlemleri yapılabiliyor ve sipariş eklenirken stok yetersiz ise uyarı veriyor aynı zamanda sipariş verilirken indirimler otomatik olarak uygulanıyor.
