@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Orders;
 use App\Models\Products;
+use App\Services\DiscountService;
 
 class OrdersController extends Controller
 {
@@ -15,7 +16,7 @@ class OrdersController extends Controller
         return response()->json($orders);
     }
 
-    public function ordersAdd(Request $request) {
+    public function ordersAdd(Request $request, DiscountService $discountService) {
         $validatedData = $request->validate([
             'customerId' => 'required|exists:customers,id',
             'items' => 'required|array',
@@ -27,6 +28,7 @@ class OrdersController extends Controller
         $items = $validatedData['items'];
 
         $total = 0;
+        $discount = 0;
         $orderItems = [];
 
         foreach ($items as $item) {
@@ -46,6 +48,7 @@ class OrdersController extends Controller
             ];
 
             $orderItems[] = $orderItem;
+            $total += $product->price * $quantity;
 
             $product->stock -= $quantity;
             $product->save();
@@ -54,7 +57,10 @@ class OrdersController extends Controller
         $order = new Orders();
         $order->customerId = $customerId;
         $order->items = $orderItems;
+        $order->discount = $discount;
         $order->total = $total;
+
+        $discountService->applyDiscounts($order);
         $order->save();
 
         return response()->json(['message' => 'Sipariş başarıyla eklendi'], 201);

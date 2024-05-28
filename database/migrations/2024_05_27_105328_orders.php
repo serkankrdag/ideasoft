@@ -18,6 +18,7 @@ class Orders extends Migration
             $table->id();
             $table->unsignedBigInteger('customerId');
             $table->json('items');
+            $table->decimal('discount', 10, 2);
             $table->decimal('total', 10, 2);
             $table->timestamps();
         });
